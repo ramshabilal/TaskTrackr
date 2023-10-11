@@ -32,10 +32,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-
-
 // TODO: use middleware required for reading body
 // Middleware to parse JSON request bodies //NOT SURE
 app.use(express.json());
@@ -225,8 +221,6 @@ app.get('/add', (req, res) => {
 app.post('/add', (req, res) => {
   // Parse the data from the form
 
-  console.log(req); 
-
   const newTask = {
       title: req.body.title,
       description: req.body.description,
@@ -239,6 +233,9 @@ app.post('/add', (req, res) => {
 
   // Add the new task to the global array
   taskList.unshift(newTask); // Add it to the top
+
+  // Sort the taskList based on pinned status and sorting criteria
+  taskList = sortTasks(req, taskList);
 
   // Redirect to the home/main page to display the updated list
   res.redirect('/');
@@ -303,17 +300,13 @@ app.listen(3000);
 
 
 function sortTasks(req, l) {
+
+  const newL = [...l];
+  newL.sort((a, b) => b.pinned - a.pinned);
+
   if (req.query['sort-by'] && req.query['sort-order']) {
-    const newL = [...l];
-
-
     const crit = req.query['sort-by'];
-    const ord = req.query['sort-order'];
-    
-    // Sort by pinned status first --> already done when taskList was made 
-    //newL.sort((a, b) => b.pinned - a.pinned);
-    //const sortedNewL = pinnedTasks(newL); //CHECK IF THIS IS NEEDED
-   // console.log(sortedNewL); 
+    const ord = req.query['sort-order']; 
 
     // Then, apply the requested sorting criteria
     newL.sort((a, b) => {
@@ -356,7 +349,7 @@ function sortTasks(req, l) {
     });
     return newL;
   } else {
-    return l;
+    return newL;
   }
 }
 
