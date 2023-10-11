@@ -6,8 +6,13 @@ class Task {
    * @param {Object} task, with appropriate fields of a task
    */
   constructor(task) {
+    this.title = task.title || '';
     this['due-date'] = this.formatDate(new Date(task['due-date']));
-    // TODO: add more fields required
+    this.description = task.description || '';
+    this.priority = task.priority || 0;
+    this.pinned = task.pinned || false;
+    this.tags = task.tags || [];
+    this.progress = task.progress || '';
   }
 
   /**

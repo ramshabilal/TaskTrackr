@@ -1,0 +1,64 @@
+body {
+    padding: 10px 20px;
+    background-color: rgb(249, 234, 215);
+}
+img {
+    /* padding: 20px;
+    margin: 50px; */
+    width: 100px;
+    height: 100px;
+    /* padding: 10px 20px; */
+    padding-right: 0px;
+}
+h1 {    
+ padding: 10px 20px; 
+}
+
+.button {
+    width: 120px;
+    height: 30px;
+    text-align:center;
+    margin: 10px;  
+    padding: 20px;
+    margin-top: 20px;  
+    background-color: #5ab8fa; /* Button background color */
+    color: #fff; /* Text color */
+    text-decoration: none; /* Remove underlines */
+    border: 1px solid #53b3f7; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change cursor on hover */
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+} 
+
+.nav-bar {
+    display: flex;
+    padding: 40px;
+    padding-bottom: 10px;
+} 
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+
+.tag {
+    background-color: #5ab8fa; /* Button background color */
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #fff; /* Text color */
+    border: 1px solid #53b3f7; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+}
+
+a {
+    text-decoration: none;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <h1>My Tasks</h1>
+
+    <form action="/" method="get" style="padding:10px;">
+        <input type="text" name="tagQ" placeholder="Search by Tag">
+        <input type="text" name="titleQ" placeholder="Search by Title">
+        <button type="submit">Search</button>
+        <button type="button" onclick="clearForm()">Clear All</button>
+    </form>
+
+
+
+    <table style="width:100%;">
+        <tr class="headings">
+            <th >Pinned</th>
+            <th>Progress</th>
+            <th>Title</th>
+            <th>Due Date 
+                <a href="?sort-by=due-date&sort-order=asc">⬆️</a>
+                <a href="?sort-by=due-date&sort-order=desc">⬇️</a>
+            </th>
+            <th>Priority 
+                <a href="?sort-by=priority&sort-order=asc">⬆️</a>
+                <a href="?sort-by=priority&sort-order=desc">⬇️</a>
+            </th>
+            <th>Tags</th>
+           
+        </tr>
+        <tbody>
+            {{#each tasks}}
+            <tr>
+                <td>
+                {{#if this.pinned}}
+                📌 <!-- Display pin emoji if 'pinned' is true -->
+                {{else}}
+                <!-- Leave it empty if 'pinned' is false -->
+                {{/if}}
+                </td>
+                <td>{{this.progress}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.[due-date]}}</td>
+                <td>{{this.priority}}</td>
+                <td>
+                {{#each this.tags}}
+                <span class="tag">{{this}}</span>
+                {{/each}}
+</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+<script>
+    function clearForm() {
+        // Get the input fields by name and set their values to empty strings
+        document.getElementsByName("titleQ")[0].value = "";
+        document.getElementsByName("tagQ")[0].value = "";
+        // Submit the form to reload the page with cleared filters
+        document.querySelector("form").submit();
+    }
+</script>
+
+</body>
+</html>
+``

@@ -1,0 +1,45 @@
+<!-- add.hbs -->
+<form action="/add" method="POST">
+    <label for="title">Title:</label>
+    <br>
+    <input type="text" name="title" required>
+    <br>
+    <label for="description">Description:</label>
+    <br>
+    <textarea name="description"></textarea>
+    <br>
+    <label for="priority">Priority:</label>
+    <br>
+    <select name="priority" required>
+        <option value="1">1 (least urgent)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (most urgent)</option>
+    </select>
+    <br>
+    <label for="due-date">Due Date:</label>
+    <br>
+    <input type="date" id="due-date" name="due-date" required>
+    <br>
+    <label for="pinned">Pinned:</label>
+    <br>
+    <input type="radio" name="pinned" value="true" required> Yes
+    <br>
+    <input type="radio" name="pinned" value="false" required> No
+    <br>
+    <label for="tags">Tags (comma-separated):</label>
+    <br>
+    <input type="text" name="tags">
+    <br>
+    <label for="progress">Progress:</label>
+    <br>
+    <select name="progress" required>
+        <option value="not-started">Not Started</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+    </select>
+    <br>
+    <br>
+    <button type="submit">Create New Task</button>
+</form>
