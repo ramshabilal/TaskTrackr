@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+    <div class="content-container">
     <h1>Filter Tasks:</h1>
 
-    <form action="/" method="get" style="padding:10px;">
+    <form action="/" method="get" style="padding-top:10px;">
         <input type="text" name="tagQ" placeholder="Search by Tag">
         <input type="text" name="titleQ" placeholder="Search by Title">
         <button type="submit">Search</button>
@@ -56,7 +57,7 @@
             {{/each}}
         </tbody>
     </table>
-
+</div>
 <script>
     function clearForm() {
         // Get the input fields by name and set their values to empty strings
