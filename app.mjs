@@ -128,65 +128,59 @@ function pinnedTasks(l) {
  * @return {[Task]} sorted array of tasks by the given criteria
  */
 
-// function sortTasks(req, l) {
-//   if (req.query['sort-by'] && req.query['sort-order']) {
-//     const  newL = [...l];
-//     const crit = req.query['sort-by'];
-//     const ord = req.query['sort-order'];
+function sortTasks(req, l) {
 
-//     // Sort tasks by whether they are pinned or not
-//     pinnedTasks(newL);
+  const newL = [...l];
+  newL.sort((a, b) => b.pinned - a.pinned);
 
-//     newL.sort((a, b) => {
-//       if (ord === 'asc') {
-//         switch (crit) {
-//           case 'due-date': {
-//             const a1 = new Date(a[crit]);
-//             const b1 = new Date(b[crit]);
-//             if (a1 === b1) {
-//               return 0;
-//             }
-//             return a1 > b1 ? 1 : -1;
-//           }
-//           case 'priority': {
-//             return a[crit] - b[crit];
-//           }
-//           default: {
-//             return 0;
-//           }
-//         }
-//       } else if (ord === 'desc') {
-//         switch (crit) {
-//           case 'due-date': {
-//             const a1 = new Date(a[crit]);
-//             const b1 = new Date(b[crit]);
-//             if (a1 === b1) {
-//               return 0;
-//             }
-//             return a1 < b1 ? 1 : -1;
-//           }
-//           case 'priority': {
-//             return b[crit] - a[crit];
-//           }
-//           default: {
-//             return 0;
-//           }
-//         }
-//       } else {
-//         return 0;
-//       }
-//     });
+  if (req.query['sort-by'] && req.query['sort-order']) {
+    const crit = req.query['sort-by'];
+    const ord = req.query['sort-order']; 
 
-//     return newL;
-//   } else {
-//     return l;
-//   }
-// }
-
-
-
-
-
+    // Then, apply the requested sorting criteria
+    newL.sort((a, b) => {
+      if (a.pinned === b.pinned) {
+        if (ord === 'asc') {
+          switch (crit) {
+            case 'due-date': {
+              const a1 = new Date(a[crit]);
+              const b1 = new Date(b[crit]);
+              if (a1 === b1) { return 0; }
+              return a1 > b1 ? 1 : -1;
+            }
+            case 'priority': {
+              return a[crit] - b[crit];
+            }
+            default: {
+              return 0;
+            }
+          }
+        } else if (ord === 'desc') {
+          switch (crit) {
+            case 'due-date': {
+              const a1 = new Date(a[crit]);
+              const b1 = new Date(b[crit]);
+              if (a1 === b1) { return 0; }
+              return a1 < b1 ? 1 : -1;
+            }
+            case 'priority': {
+              return b[crit] - a[crit];
+            }
+            default: {
+              return 0;
+            }
+          }
+        }
+      } else {
+        // Tasks with pinned: true should come before tasks with pinned: false
+        return b.pinned - a.pinned;
+      }
+    });
+    return newL;
+  } else {
+    return newL;
+  }
+}
 
 // Define a route for the home page
 app.get('/', (req, res) => {
@@ -244,113 +238,5 @@ app.post('/add', (req, res) => {
 
 app.listen(3000);
 
-
-
-// function sortTasks(req, l) {
-//   if (req.query['sort-by'] && req.query['sort-order']) {
-//     const newL = [...l];
-//     const crit = req.query['sort-by'];
-//     const ord = req.query['sort-order'];
-
-//    // Sort tasks by pinned status first
-//    newL = pinnedTasks(newL);
-
-//     newL.sort((a, b)=>{
-//       if (ord === 'asc') {
-//         switch (crit) {
-//           case 'due-date': {
-//             const a1 = new Date(a[crit]);
-//             const b1 = new Date(b[crit]);
-//             if (a1 === b1) { return 0; }
-//             return a1 > b1 ? 1 : -1;
-//           }
-//           case 'priority': {
-//             return a[crit] - b[crit];
-//           }
-//           default: {
-//             return 0;
-//           }
-//         }
-//       } else if (ord === 'desc') {
-//         switch (crit) {
-//           case 'due-date': {
-//             const a1 = new Date(a[crit]);
-//             const b1 = new Date(b[crit]);
-//             if (a1 === b1) { return 0; }
-//             return a1 < b1 ? 1 : -1;
-//           }
-//           case 'priority': {
-//             return b[crit] - a[crit];
-//           }
-//           default: {
-//             return 0;
-//           }
-//         }
-//       } else {
-//         return [];
-//       }
-//     });
-//     return newL;
-//   } else {
-//     return l;
-//   }
-// }
-
-
-
-
-function sortTasks(req, l) {
-
-  const newL = [...l];
-  newL.sort((a, b) => b.pinned - a.pinned);
-
-  if (req.query['sort-by'] && req.query['sort-order']) {
-    const crit = req.query['sort-by'];
-    const ord = req.query['sort-order']; 
-
-    // Then, apply the requested sorting criteria
-    newL.sort((a, b) => {
-      if (a.pinned === b.pinned) {
-        if (ord === 'asc') {
-          switch (crit) {
-            case 'due-date': {
-              const a1 = new Date(a[crit]);
-              const b1 = new Date(b[crit]);
-              if (a1 === b1) { return 0; }
-              return a1 > b1 ? 1 : -1;
-            }
-            case 'priority': {
-              return a[crit] - b[crit];
-            }
-            default: {
-              return 0;
-            }
-          }
-        } else if (ord === 'desc') {
-          switch (crit) {
-            case 'due-date': {
-              const a1 = new Date(a[crit]);
-              const b1 = new Date(b[crit]);
-              if (a1 === b1) { return 0; }
-              return a1 < b1 ? 1 : -1;
-            }
-            case 'priority': {
-              return b[crit] - a[crit];
-            }
-            default: {
-              return 0;
-            }
-          }
-        }
-      } else {
-        // Tasks with pinned: true should come before tasks with pinned: false
-        return b.pinned - a.pinned;
-      }
-    });
-    return newL;
-  } else {
-    return newL;
-  }
-}
 
 
