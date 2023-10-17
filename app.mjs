@@ -1,10 +1,10 @@
 // app.mjs
 import express from 'express';
-import {resolve, dirname} from 'path';
 import {readFile, readdir} from 'fs';
 import {fileURLToPath} from 'url';
 import * as path from 'path';
 import {Task} from './task.mjs';
+//import {resolve, dirname} from 'path';
 
 const app = express();
 // set hbs engine
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   console.log(`Method: ${req.method}`);
   console.log(`Path: ${req.originalUrl.split('?')[0]}`);
   console.log(`Query: ${JSON.stringify(req.query)}`);
-  console.log(`Body: ${JSON.stringify(req.body)}`);
+  console.log(`Body: ${JSON.stringify(req.body)}\n`);
   next();
 });
 
@@ -42,8 +42,18 @@ let taskList = [];
 // The reading path
 const readingPath = path.resolve(__dirname, './saved-tasks');
 
+/**
+ * This function sort tasks by whether they are pinned or not
+ * @param {[Task]} l the array of tasks to be sorted
+ * @return {[Task]} sorted array of tasks, with pinned tasks first
+ */
+function pinnedTasks(l) {
+  return [...l].sort((a, b)=>b.pinned-a.pinned);
+}
+
+
 // Function to read tasks from files
-// Function to read tasks from files using callbacks
+// Using callbacks
 function readTasksFromFilesUsingCallbacks(callback) {
   // Read the list of task files in the specified directory
   readdir(readingPath, (err, taskFiles) => {
@@ -93,7 +103,6 @@ function readTasksFromFilesUsingCallbacks(callback) {
         }
       });
     }
-
     // Start processing files, beginning with the first file (index 0)
     processFile(0);
   });
@@ -106,20 +115,11 @@ readTasksFromFilesUsingCallbacks((err, tasks) => {
     console.error('Error reading tasks:', err);
   } else {
     // Use the retrieved tasks (taskList = tasks)
-    taskList = pinnedTasks(tasks); //CHECK
+    taskList = pinnedTasks(tasks); 
     //console.log(taskList);
   }
 });
 
-
-/**
- * This function sort tasks by whether they are pinned or not
- * @param {[Task]} l the array of tasks to be sorted
- * @return {[Task]} sorted array of tasks, with pinned tasks first
- */
-function pinnedTasks(l) {
-  return [...l].sort((a, b)=>b.pinned-a.pinned);
-}
 
 /**
  * This function sort tasks by the give criteria "sort-by" and "sort-order"
@@ -127,7 +127,6 @@ function pinnedTasks(l) {
  * @param {[Task]} l the array of tasks to be sorted
  * @return {[Task]} sorted array of tasks by the given criteria
  */
-
 function sortTasks(req, l) {
 
   const newL = [...l];

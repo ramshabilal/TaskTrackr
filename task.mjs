@@ -20,6 +20,7 @@ class Task {
    * @param {String} tag, the given single tag to be checked
    */
   hasTag(tag) {
+    return this.tags.includes(tag); 
   }
 
   /**
