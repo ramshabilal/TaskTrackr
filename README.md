@@ -1,6 +1,10 @@
-# Tasks Manager
+# TaskTrackr
+
+### A Task Management App
 
 A simple and intuitive task management app to help you stay organized and prioritize your work.
+
+[Click to go to app](https://task-trackr-ramsha.vercel.app/)
 
 ## Features
 
